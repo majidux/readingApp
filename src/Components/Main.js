@@ -24,8 +24,8 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
     main: {
         flex: 3,
-        backgroundColor: 'pink',
-        
+        // backgroundColor: 'pink',
+    
     },
     scroll:{
         paddingTop: 10,
@@ -34,6 +34,5 @@ const styles = StyleSheet.create({
     menu:{
         flex: 1,
         justifyContent:'center',
-        // alignItems:'center'
     }
 });

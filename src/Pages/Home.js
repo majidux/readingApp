@@ -40,7 +40,6 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     home: {
         flex: 1,
-        paddingHorizontal:15,
-        backgroundColor:'green'
+        // backgroundColor:'green'
     }
 });

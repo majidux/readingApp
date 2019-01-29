@@ -44,6 +44,7 @@ export default class Header extends Component {
 const styles = StyleSheet.create({
     header: {
         flex: 1,
+        paddingHorizontal:15,
     },
     menuBar:{
         flexDirection:'row',
