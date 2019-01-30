@@ -3,27 +3,30 @@ import {View, Text, StyleSheet, Image, FlatList, Animated, TouchableOpacity, Scr
 
 
 
-
-HEADER_MAX_HEIGHT_FLEX=1;
-HEADER_MIN_HEIGHT_FLEX=.4;
-HEADER_MAX_HEIGHT_PIXEL=120;
-HEADER_MIN_HEIGHT_PIXEL=70;
-PROFILE_IMAGE_MAX_HEIGHT=80;
-PROFILE_IMAGE_MIN_HEIGHT=40;
-
-
 export default class PopularBooks extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             scrollY: new Animated.Value(0)
         }
     }
     
+    componentDidMount() {
+        this.state.scrollY.addListener(({ value }) => (this.offset = value));
+    }
+    
+    onScroll = e => {
+        const scrollSensitivity = 4 / 3;
+        const offset = e.nativeEvent.contentOffset.y / scrollSensitivity;
+        this.state.scrollY.setValue(offset);
+    };
+    
+    
     render() {
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange:[0, HEADER_MAX_HEIGHT_FLEX - HEADER_MIN_HEIGHT_FLEX],
-            outputRange:[HEADER_MAX_HEIGHT_FLEX,HEADER_MIN_HEIGHT_FLEX],
+        let headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 300],
+            outputRange: [200, 50],
             extrapolate:'clamp'
         });
         
@@ -32,7 +35,7 @@ export default class PopularBooks extends Component {
                 flex: 1,
                 
             }}>
-                <Animated.View style={[styles.header,{flex:headerHeight}]}>
+                <Animated.View style={[styles.header,{height: headerHeight}]}>
                     <Animated.View style={styles.menuBar}>
                         <Animated.View>
                             <Image
@@ -40,7 +43,7 @@ export default class PopularBooks extends Component {
                             />
                         </Animated.View>
                         <View>
-                            <Text style={{fontWeight:'600',fontSize:20}}>My books</Text>
+                            <Text style={{fontWeight:'600',fontSize:30,color:'#000'}}>My books</Text>
                         </View>
                         <View>
                             <Image
@@ -48,25 +51,15 @@ export default class PopularBooks extends Component {
                             />
                         </View>
                     </Animated.View>
-                    <View style={styles._slider}>
-                        <View>
-                            <Image
-                                source={require('../Assets/image/main.png')}
-                                style={{width: 380, height: 110, borderRadius: 4}}
-                            />
-                        </View>
-                    </View>
                 
                 
                 </Animated.View>
                 
                 <ScrollView
                     style={{flex:1}}
-                    onScroll={({nativeEvent}) => {
-                        this.setState({scrollY: nativeEvent.contentOffset.y})
-                    }}
+                    onScroll={this.onScroll}
                 >
-                    <View style={[styles.popularBooks,{marginTop:HEADER_MAX_HEIGHT_PIXEL-(PROFILE_IMAGE_MIN_HEIGHT/2),flex:HEADER_MAX_HEIGHT_FLEX}]}>
+                    <View style={[styles.popularBooks]}>
                         <View style={styles.titleArea}>
                             <Text style={styles.titleText}>Popular Books</Text>
                             <TouchableOpacity>
