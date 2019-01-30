@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, FlatList, Animated, TouchableOpacity, ScrollView} from 'react-native';
-
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    FlatList,
+    Animated,
+    TouchableOpacity,
+    ScrollView,
+} from 'react-native';
 
 
 export default class PopularBooks extends Component {
@@ -8,132 +16,158 @@ export default class PopularBooks extends Component {
         super(props);
         
         this.state = {
-            scrollY: new Animated.Value(0)
+            scrollY: new Animated.Value(0),
         }
     }
     
-    componentDidMount() {
-        this.state.scrollY.addListener(({ value }) => (this.offset = value));
-    }
+   
     
     onScroll = e => {
         const scrollSensitivity = 4 / 3;
         const offset = e.nativeEvent.contentOffset.y / scrollSensitivity;
         this.state.scrollY.setValue(offset);
+        
+        // this.setState({scrollY:offset})
+        // console.warn(this.state.scrollY)
     };
     
     
     render() {
         let headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 300],
-            outputRange: [200, 50],
-            extrapolate:'clamp'
+            outputRange: [300, 150],
+            extrapolate: 'clamp'
         });
         
+        let imageHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 300],
+            outputRange: [110, 50],
+            extrapolate: 'clamp'
+        })
+
+        
         return (
-            <Animated.View style={{
-                flex: 1,
-                
-            }}>
-                <Animated.View style={[styles.header,{height: headerHeight}]}>
-                    <Animated.View style={styles.menuBar}>
-                        <Animated.View>
-                            <Image
-                                source={require('../Assets/image/menu.png')}
-                            />
-                        </Animated.View>
-                        <View>
-                            <Text style={{fontWeight:'600',fontSize:30,color:'#000'}}>My books</Text>
-                        </View>
-                        <View>
-                            <Image
-                                source={require('../Assets/image/magnifier.png')}
-                            />
-                        </View>
-                    </Animated.View>
-                
-                
-                </Animated.View>
-                
-                <ScrollView
-                    style={{flex:1}}
-                    onScroll={this.onScroll}
-                >
-                    <View style={[styles.popularBooks]}>
-                        <View style={styles.titleArea}>
-                            <Text style={styles.titleText}>Popular Books</Text>
-                            <TouchableOpacity>
-                                <Text style={styles.viewAllText}>view all</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{flex: 1}}>
-                            <FlatList
-                                data={this.props.lastData}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                keyExtractor={(item) => item.email}
-                                renderItem={({item}) =>
-                                    <View style={styles.people}>
-                                        
-                                        <View style={styles.imageView}>
-                                            <Image
-                                                source={{uri: item.picture.large}}
-                                                style={styles.imageStyle}
-                                            
-                                            />
-                                        </View>
-                                        <View style={{marginVertical: 4, alignItems: 'flex-start'}}>
-                                            <Text style={{fontWeight: '600'}}>
-                                                {`${item.name.first.charAt(0).toUpperCase()}${item.name.first.slice(1).toLowerCase()} ${item.name.last.charAt(0).toUpperCase()}${item.name.last.slice(1).toLowerCase().substring(0, 3)}`}
-                                            </Text>
-                                        </View>
-                                        <View>
-                                            <Text style={styles.price}>$ {item.dob.age}.{item.registered.age}</Text>
-                                        </View>
-                                    </View>
-                                }
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.likeBooks}>
-                        <View style={styles.titleArea}>
-                            <Text style={styles.titleText}>You may also like</Text>
-                            <TouchableOpacity>
-                                <Text style={styles.viewAllText}>Refresh to Update</Text>
-                            </TouchableOpacity>
-                        </View>
-                        {
-                            this.props.lastData.map((item, i) =>
+            <Animated.View style={styles.flex1}>
+                    <Animated.View style={[styles.header, {height: headerHeight}]}>
+                        <Animated.View style={styles.menuBar}>
+                            <TouchableOpacity onPress={this.peopleInfoTrue}>
+                                <Animated.View>
+                                    <Image
+                                        source={require('../Assets/image/menu.png')}
+                                    />
                                 
-                                <View key={i}>
-                                    <View style={styles.box}>
-                                        <View style={styles.profilePic}>
-                                            <Image
-                                                source={{uri: item.picture.large}}
-                                                style={{width: 75, height: 100}}
-                                            />
-                                        </View>
-                                        <View stylle={styles.textArea}>
-                                            <View style={{alignItems: 'flex-start'}}>
-                                                <Text>{`${item.name.first.charAt(0).toUpperCase()}${item.name.first.slice(1).toLowerCase()} ${item.name.last.charAt(0).toUpperCase()}${item.name.last.slice(1).toLowerCase().substring(0, 3)}`}</Text>
+                                </Animated.View>
+                            </TouchableOpacity>
+                            
+     
+                            <View>
+                                <Text style={{fontWeight: '600', fontSize: 30, color: '#000'}}>My books</Text>
+                            </View>
+                            <View>
+                                <Image
+                                    source={require('../Assets/image/magnifier.png')}
+                                />
+                            </View>
+                        </Animated.View>
+                        <View style={styles._slider}>
+                            <Animated.View style={{width: 380, height: imageHeight, borderRadius: 4}}>
+                                <Animated.Image
+                                    source={require('../Assets/image/main.png')}
+                                    style={{flex: 1, width: 380 , height: imageHeight, borderRadius: 4}}
+                                />
+                            </Animated.View>
+                        </View>
+                    
+                    </Animated.View>
+                    
+                    <ScrollView
+                        style={styles.flex1}
+                        onScroll={this.onScroll}
+                    >
+                        <View style={[styles.popularBooks]}>
+                            <View style={styles.titleArea}>
+                                <Text style={styles.titleText}>Popular Books</Text>
+                                <TouchableOpacity>
+                                    <Text style={styles.viewAllText}>view all</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{flex: 1}}>
+                                <FlatList
+                                    data={this.props.lastData}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    keyExtractor={(item) => item.email}
+                                    renderItem={({item}) =>
+                                        <View style={styles.people}>
+                                            
+                                            <View style={styles.imageView}>
+                                                <Image
+                                                    source={{uri: item.picture.large}}
+                                                    style={styles.imageStyle}
+                                                
+                                                />
+                                            </View>
+                                            <View style={{marginVertical: 4, alignItems: 'flex-start'}}>
+                                                <Text style={{fontWeight: '600'}}>
+                                                    {`${item.name.first.charAt(0).toUpperCase()}${item.name.first.slice(1).toLowerCase()} ${item.name.last.charAt(0).toUpperCase()}${item.name.last.slice(1).toLowerCase().substring(0, 3)}`}
+                                                </Text>
                                             </View>
                                             <View>
-                                                <Text
-                                                    numberOfLines={3}>{`${item.location.state} ${item.location.city}`}</Text>
+                                                <Text style={styles.price}>$ {item.dob.age}.{item.registered.age}</Text>
                                             </View>
                                         </View>
+                                    }
+                                />
+                            </View>
+                        </View>
+                        <View style={styles.likeBooks}>
+                            <View style={styles.titleArea}>
+                                <Text style={styles.titleText}>You may also like</Text>
+                                <TouchableOpacity>
+                                    <Text style={styles.viewAllText}>Refresh to Update</Text>
+                                </TouchableOpacity>
+                            </View>
+                            
+                            {
+                                this.props.lastData.map((item, i) =>
+                                    
+                                    <View key={i}>
+                                        <TouchableOpacity>
+                                            <View style={styles.box}>
+                                                <View style={styles.profilePic}>
+                                                    <Image
+                                                        source={{uri: item.picture.large}}
+                                                        style={{width: 75, height: 100}}
+                                                    />
+                                                </View>
+                                                <View stylle={styles.textArea}>
+                                                    <View style={{alignItems: 'flex-start'}}>
+                                                        <Text>{`${item.name.first.charAt(0).toUpperCase()}${item.name.first.slice(1).toLowerCase()} ${item.name.last.charAt(0).toUpperCase()}${item.name.last.slice(1).toLowerCase().substring(0, 3)}`}</Text>
+                                                    </View>
+                                                    <View>
+                                                        <Text
+                                                            numberOfLines={3}>{`${item.location.state} ${item.location.city}`}</Text>
+                                                    </View>
+                                                
+                                                </View>
+                                            </View>
+                                        </TouchableOpacity>
                                     </View>
-                                </View>
-                            )
-                        }
-                    </View>
-                </ScrollView>
+                                )
+                            }
+                        
+                        </View>
+                    </ScrollView>
             </Animated.View>
         
         );
     }
 }
 const styles = StyleSheet.create({
+    flex1:{
+        flex: 1,
+        backgroundColor:'#fff'
+    },
     popularBooks: {
         // flex: 5,
     },
@@ -188,16 +222,16 @@ const styles = StyleSheet.create({
     },
     header: {
         // flex: headerHeight,
-        paddingHorizontal:15,
+        paddingHorizontal: 15,
     },
-    menuBar:{
-        flexDirection:'row',
+    menuBar: {
+        flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    _slider:{
-        flex:2,
+    _slider: {
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
     }
