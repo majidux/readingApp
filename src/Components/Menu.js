@@ -1,11 +1,31 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 export default class Menu extends Component {
     render() {
         return (
             <View style={styles._menu}>
-                <Text>Menu</Text>
+                <TouchableOpacity>
+                    <View>
+                        <Image
+                            source={require('../Assets/image/book.png')}
+                        />
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <View>
+                        <Image
+                            source={require('../Assets/image/books.png')}
+                        />
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <View>
+                        <Image
+                            source={require('../Assets/image/notification.png')}
+                        />
+                    </View>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -13,9 +33,11 @@ export default class Menu extends Component {
 const styles = StyleSheet.create({
     _menu: {
         flex: 1,
-        backgroundColor:'blue',
-        paddingVertical:20,
-        justifyContent:'center',
-        alignItems:'center',
+        paddingVertical: 20,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection: 'row',
+        elevation: 5,
+        borderRadius: 5
     }
 });

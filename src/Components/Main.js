@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Image, ScrollView, Animated} from 'react-native';
 import PopularBooks from "./PopularBooks";
 import LikeBooks from "./LikeBooks";
 import Menu from "./Menu";
 
 export default class Main extends Component {
+  
     render() {
         return (
             <View style={styles.main}>
                 <View style={styles.scroll}>
-                    <ScrollView>
                         <PopularBooks lastData={this.props.lastData}/>
-                        <LikeBooks lastData={this.props.lastData}/>
-                    </ScrollView>
+                        {/*<LikeBooks lastData={this.props.lastData}/>*/}
                 </View>
                 <View style={styles.menu}>
                     <Menu/>
@@ -24,8 +23,6 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
     main: {
         flex: 3,
-        // backgroundColor: 'pink',
-    
     },
     scroll:{
         paddingTop: 10,

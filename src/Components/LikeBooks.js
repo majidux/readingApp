@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {View, Text, StyleSheet, Image, FlatList, TouchableOpacity} from 'react-native';
 
 export default class LikeBooks extends Component {
     render() {
@@ -7,7 +7,9 @@ export default class LikeBooks extends Component {
             <View style={styles.likeBooks}>
                 <View style={styles.titleArea}>
                     <Text style={styles.titleText}>You may also like</Text>
-                    <Text style={styles.viewAllText}>Refresh to Update</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.viewAllText}>Refresh to Update</Text>
+                    </TouchableOpacity>
                 </View>
                 {
                     this.props.lastData.map((item, i) =>
@@ -21,7 +23,7 @@ export default class LikeBooks extends Component {
                                     />
                                 </View>
                                 <View stylle={styles.textArea}>
-                                    <View style={{alignItems:'flex-start'}}>
+                                    <View style={{alignItems: 'flex-start'}}>
                                         <Text>{`${item.name.first.charAt(0).toUpperCase()} ${item.name.last}`}</Text>
                                     </View>
                                     <View>
@@ -40,7 +42,6 @@ export default class LikeBooks extends Component {
 const styles = StyleSheet.create({
     likeBooks: {
         flex: 5,
-        // backgroundColor: 'skyblue',
         paddingHorizontal: 15,
         marginTop: 15
     },
@@ -60,12 +61,11 @@ const styles = StyleSheet.create({
     },
     box: {
         flexDirection: 'row',
-        // backgroundColor: 'red',
         alignItems: 'center',
         marginVertical: 8,
         paddingHorizontal: 12,
         flex: 1,
-        elevation: 5,
+        elevation: 3,
         borderRadius: 5
     },
     profilePic: {

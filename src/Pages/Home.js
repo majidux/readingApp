@@ -31,7 +31,7 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.home}>
-                <Header/>
+                {/*<Header/>*/}
                 <Main lastData={this.state.lastData}/>
             </View>
         );
@@ -40,6 +40,5 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     home: {
         flex: 1,
-        // backgroundColor:'green'
     }
 });
